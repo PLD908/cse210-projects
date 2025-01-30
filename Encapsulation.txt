@@ -1,0 +1,26 @@
+In the context of object-oriented programming, encapsulation is a fundamental principle that involves bundling data and the methods that operate on that data within a single unit or class, while restricting direct access to some of the object's components. Its primary purpose is to hide the internal details of how a class works and protect the data from unauthorized access or modification.
+
+A key benefit of encapsulation is data protection and integrity. By using private fields and controlled access through public methods, we ensure that data can only be modified in predefined, controlled ways. This prevents unexpected changes and helps maintain the object's state.
+In our Scripture Memorization Program, a clear example of encapsulation is the ScriptureWord class:
+csharpCopypublic class ScriptureWord
+{
+    public string Text { get; private set; }
+    public bool IsHidden { get; private set; }
+
+    public ScriptureWord(string text)
+    {
+        Text = text;
+        IsHidden = false;
+    }
+
+    public string GetDisplayText()
+    {
+        return IsHidden ? new string('_', Text.Length) : Text;
+    }
+
+    public void Hide()
+    {
+        IsHidden = true;
+    }
+}
+Here, Text and IsHidden have private setters, meaning they can only be modified within the class. The Hide() method provides a controlled way to change the word's state. This prevents external code from directly manipulating these properties, ensuring that a word can only be hidden through the defined method. By encapsulating the word's behavior, we protect its internal state and provide a clean, predictable interface for interacting with scripture words.
