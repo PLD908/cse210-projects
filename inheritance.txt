@@ -1,0 +1,46 @@
+Inheritance is a fundamental object-oriented programming principle where a class (called the child or derived class) can inherit attributes and methods from another class (called the parent or base class). This creates a hierarchical relationship where the child class gets all the characteristics of the parent class while also being able to add its own unique features.
+
+A key benefit of inheritance is code reusability. Instead of writing the same code multiple times for similar classes, we can put common functionality in a base class and inherit it in multiple child classes. This not only reduces code duplication but also makes the program easier to maintain – if we need to change how a shared feature works, we only need to modify it in one place (the base class).
+
+In our mindfulness program, we see this principle applied through the Activity base class and its three child classes: BreathingActivity, ReflectionActivity, and ListingActivity. Here's a concrete example:
+csharpCopy// Base class
+public abstract class Activity
+{
+    protected string _name;
+    protected string _description;
+    protected int _duration;
+
+    public void Start()
+    {
+        DisplayStartingMessage();
+        SetDuration();
+        Console.WriteLine("\nGet ready...");
+        ShowSpinner(3);
+        RunActivity();
+        DisplayEndingMessage();
+    }
+}
+
+// Child class inheriting from Activity
+public class BreathingActivity : Activity
+{
+    public BreathingActivity() : base(
+        "Breathing Activity",
+        "This activity will help you relax by walking you through breathing in and out slowly."
+    ) { }
+
+    protected override void RunActivity()
+    {
+        // Breathing-specific implementation
+    }
+}
+In this example, BreathingActivity inherits from Activity (indicated by the : Activity syntax). This means BreathingActivity automatically gets all the functionality defined in Activity, such as the Start() method, which handles the common flow of all activities. The child class doesn't need to reimplement this logic – it inherits it.
+However, BreathingActivity can also define its own unique behavior through the RunActivity() method. While the base Activity class declares RunActivity() as abstract (meaning it must be implemented by child classes), each child class provides its own specific implementation. This demonstrates another powerful feature of inheritance: the ability to override methods to provide specialized behavior while maintaining a common interface.
+This use of inheritance makes our program more:
+
+Maintainable - Common code is in one place
+Extensible - New activities can be added by creating new child classes
+Consistent - All activities follow the same basic pattern
+Organized - Related code is grouped together in a logical hierarchy
+
+The result is a well-structured program where each activity type can focus on its unique features while sharing common functionality through inheritance.
