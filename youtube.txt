@@ -1,0 +1,117 @@
+YOUTUBE TRACKING SYSTEM:
+
+Classes and Responsibilities:
+
+Current Classes: Video, Comment
+Missing Classes (potential additions):
+
+Channel - Manage video creator information
+CommentThread - Handle nested comments
+Analytics - Track video statistics
+
+
+
+
+Methods (behaviors):
+CopyVideo:
+- AddComment()
+- GetNumberOfComments()
+- GetTitle()
+- GetAuthor()
+- GetLength()
++ GetViews()      [new]
++ UpdateMetadata() [new]
+
+Comment:
+- GetCommenterName()
+- GetText()
++ AddReply()      [new]
++ GetTimestamp()  [new]
++ EditComment()   [new]
+
+Channel:          [new]
++ GetSubscribers()
++ GetTotalViews()
++ AddVideo()
+
+Attributes (member variables):
+CopyVideo:
+- _title: string
+- _author: string
+- _lengthInSeconds: int
+- _comments: List<Comment>
++ _views: int [new]
++ _likes: int [new]
++ _uploadDate: DateTime [new]
+
+Comment:
+- _commenterName: string
+- _text: string
++ _timestamp: DateTime [new]
++ _likes: int [new]
++ _replies: List<Comment> [new]
+
+Channel:  [new]
+- _name: string
+- _subscribers: int
+- _videos: List<Video>
+- _totalViews: int
+
+Class Diagram:
+
+mermaidCopyclassDiagram
+    class Video {
+        -string _title
+        -string _author
+        -int _lengthInSeconds
+        -List~Comment~ _comments
+        -int _views
+        -int _likes
+        -DateTime _uploadDate
+        +AddComment()
+        +GetNumberOfComments()
+        +GetTitle()
+        +GetAuthor()
+        +GetLength()
+        +GetViews()
+        +UpdateMetadata()
+    }
+
+    class Comment {
+        -string _commenterName
+        -string _text
+        -DateTime _timestamp
+        -int _likes
+        -List~Comment~ _replies
+        +GetCommenterName()
+        +GetText()
+        +AddReply()
+        +GetTimestamp()
+        +EditComment()
+    }
+
+    class Channel {
+        -string _name
+        -int _subscribers
+        -List~Video~ _videos
+        -int _totalViews
+        +GetSubscribers()
+        +GetTotalViews()
+        +AddVideo()
+    }
+
+    Video "1" --> "*" Comment
+    Channel "1" --> "*" Video
+    Comment "1" --> "*" Comment
+
+Program Flow:
+
+mermaidCopyflowchart TD
+    A[Start] --> B[Create Channel]
+    B --> C[Create Videos]
+    C --> D[Add Videos to Channel]
+    D --> E[Add Comments to Videos]
+    E --> F[Display Video Info]
+    F --> G[Display Comments]
+    G --> H[Update Statistics]
+    H --> I[End]

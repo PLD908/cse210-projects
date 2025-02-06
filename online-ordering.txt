@@ -1,0 +1,142 @@
+ONLINE ORDERING SYSTEM:
+
+Classes and Responsibilities:
+
+Current Classes: Product, Customer, Address, Order
+Missing Classes (potential additions):
+
+PaymentMethod - Handle payment information and validation
+OrderHistory - Track past orders for a customer
+Inventory - Manage product stock levels
+
+
+
+
+Methods (behaviors):
+CopyProduct:
+- GetTotalCost()
+- GetName()
+- GetProductId()
++ UpdateQuantity()  [new]
++ IsInStock()      [new]
+
+Address:
+- IsInUSA()
+- GetFullAddress()
++ Validate()       [new]
+
+Customer:
+- IsInUSA()
+- GetName()
+- GetAddress()
++ UpdateAddress()  [new]
++ GetOrderHistory() [new]
+
+Order:
+- AddProduct()
+- CalculateTotalCost()
+- GetPackingLabel()
+- GetShippingLabel()
++ GetOrderStatus() [new]
++ ProcessPayment() [new]
+
+Attributes (member variables):
+CopyProduct:
+- _name: string
+- _productId: string
+- _price: decimal
+- _quantity: int
++ _stockLevel: int [new]
+
+Address:
+- _streetAddress: string
+- _city: string
+- _stateProvince: string
+- _country: string
++ _postalCode: string [new]
+
+Customer:
+- _name: string
+- _address: Address
++ _email: string [new]
++ _phoneNumber: string [new]
++ _orderHistory: List<Order> [new]
+
+Order:
+- _products: List<Product>
+- _customer: Customer
++ _orderDate: DateTime [new]
++ _orderStatus: string [new]
++ _orderNumber: string [new]
+
+Class Diagram:
+
+mermaidCopyclassDiagram
+    class Product {
+        -string _name
+        -string _productId
+        -decimal _price
+        -int _quantity
+        -int _stockLevel
+        +GetTotalCost()
+        +GetName()
+        +GetProductId()
+        +UpdateQuantity()
+        +IsInStock()
+    }
+
+    class Address {
+        -string _streetAddress
+        -string _city
+        -string _stateProvince
+        -string _country
+        -string _postalCode
+        +IsInUSA()
+        +GetFullAddress()
+        +Validate()
+    }
+
+    class Customer {
+        -string _name
+        -Address _address
+        -string _email
+        -string _phoneNumber
+        -List~Order~ _orderHistory
+        +IsInUSA()
+        +GetName()
+        +GetAddress()
+        +UpdateAddress()
+        +GetOrderHistory()
+    }
+
+    class Order {
+        -List~Product~ _products
+        -Customer _customer
+        -DateTime _orderDate
+        -string _orderStatus
+        -string _orderNumber
+        +AddProduct()
+        +CalculateTotalCost()
+        +GetPackingLabel()
+        +GetShippingLabel()
+        +GetOrderStatus()
+        +ProcessPayment()
+    }
+
+    Order "1" --> "*" Product
+    Order "1" --> "1" Customer
+    Customer "1" --> "1" Address
+
+Program Flow:
+
+mermaidCopyflowchart TD
+    A[Start] --> B[Create Products]
+    B --> C[Create Address]
+    C --> D[Create Customer]
+    D --> E[Create Order]
+    E --> F[Add Products to Order]
+    F --> G[Generate Labels]
+    G --> H[Calculate Total]
+    H --> I[Process Payment]
+    I --> J[Complete Order]
+    J --> K[End]
