@@ -1,0 +1,60 @@
+Polymorphism means "many forms" and is a core principle of object-oriented programming that allows objects of different types to be treated as objects of a common base type. More specifically, it allows methods to do different things based on the object that calls them, even though they're called in the same way.
+
+The key benefit of polymorphism is that it enables you to write more flexible and maintainable code. Instead of writing separate code to handle each specific type of object, you can write code that works with the base type and automatically handles all derived types appropriately. This reduces code duplication and makes it easier to add new types later.
+
+Let's look at how polymorphism is used in our goal tracking system. In the base Goal class, we have this abstract method:
+csharpCopypublic abstract class Goal
+{
+    public abstract int RecordEvent();
+}
+Then each derived class implements this method differently:
+csharpCopy// SimpleGoal implementation
+public override int RecordEvent()
+{
+    if (!_isComplete)
+    {
+        _isComplete = true;
+        return _basePoints;
+    }
+    return 0;
+}
+
+// EternalGoal implementation
+public override int RecordEvent()
+{
+    return _basePoints;
+}
+
+// ChecklistGoal implementation
+public override int RecordEvent()
+{
+    _timesCompleted++;
+    if (_timesCompleted == _target)
+    {
+        _isComplete = true;
+        return _basePoints + _bonusPoints;
+    }
+    return _basePoints;
+}
+When the QuestManager records an event, it doesn't need to know what type of goal it's dealing with:
+csharpCopypublic void RecordEvent(int index)
+{
+    if (index >= 0 && index < _goals.Count)
+    {
+        int points = _goals[index].RecordEvent();
+        _score += points;
+    }
+}
+This is polymorphism in action. The RecordEvent() method behaves differently depending on the actual type of goal:
+
+For a SimpleGoal, it marks the goal complete and awards points only once
+For an EternalGoal, it always awards points and never completes
+For a ChecklistGoal, it tracks progress and gives bonus points upon final completion
+
+The QuestManager doesn't need separate code for each goal type. It just calls RecordEvent() and the appropriate version runs automatically. This makes the code:
+
+More maintainable (changes to goal behavior only happen in one place)
+More extensible (new goal types can be added without changing the QuestManager)
+More readable (the logic for each goal type is encapsulated in its own class)
+
+If we didn't use polymorphism, we'd need complex if/else statements or switch cases in the QuestManager to handle each type of goal differently, making the code more complex and harder to maintain. Adding a new goal type would require modifying multiple places in the code, increasing the chance of introducing bugs. CopyRetryClaude does not have the ability to run the code it generates yet.
